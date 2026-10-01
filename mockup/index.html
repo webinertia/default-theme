@@ -35,7 +35,10 @@
               </ul>
             </li>
           </ul>
-          <button class="btn btn-outline-secondary" type="button" id="theme-toggle" aria-pressed="true">Dark</button>
+          <div class="btn-group" role="group" aria-label="Colour mode">
+            <button class="btn btn-outline-secondary" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+            <button class="btn btn-outline-secondary" type="button" data-theme-choice="dark" aria-pressed="true">Dark</button>
+          </div>
         </div>
       </div>
     </nav>
@@ -139,17 +142,21 @@
       crossorigin="anonymous"></script>
     <script>
       const root = document.documentElement;
-      const toggle = document.getElementById('theme-toggle');
+      const choices = document.querySelectorAll('[data-theme-choice]');
       const render = () => {
-        const dark = root.getAttribute('data-bs-theme') === 'dark';
-        toggle.textContent = dark ? 'Dark' : 'Light';
-        toggle.setAttribute('aria-pressed', String(dark));
+        const current = root.getAttribute('data-bs-theme');
+        choices.forEach((choice) => {
+          const active = choice.dataset.themeChoice === current;
+          choice.classList.toggle('active', active);
+          choice.setAttribute('aria-pressed', String(active));
+        });
       };
-      toggle.addEventListener('click', () => {
-        const next = root.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-bs-theme', next);
-        localStorage.setItem('webware-theme', next);
-        render();
+      choices.forEach((choice) => {
+        choice.addEventListener('click', () => {
+          root.setAttribute('data-bs-theme', choice.dataset.themeChoice);
+          localStorage.setItem('webware-theme', choice.dataset.themeChoice);
+          render();
+        });
       });
       render();
     </script>
