@@ -145,18 +145,20 @@
       <!--
         Member list page — webinertia/webware-usermanager#84.
 
-        A row carries a display name and a join date only: no email, no role, no account status. The name
-        link and the profile button are rendered only where the viewer holds a role granted the profile
-        resource, or owns that row. The third row below is what a member without the grant sees; the
-        fourth is the viewer's own row, linked without any grant.
+        A paginated grid of cards. Each card carries the member's profile image — or their initials until
+        they have one — and their details, which come from the profile's related table; the card body is the
+        extension point for whatever that table grows to hold. The name link and the Profile button are
+        rendered only where the viewer holds a role granted the profile resource, or owns that card: the
+        third card is the viewer's own, linked with no grant, and the fourth is what a member without the
+        grant sees.
 
         Headings here sit one level below the page's own so this demo page keeps a single h1; the template
         itself uses h1 for the page title.
       -->
       <section id="member-list">
         <p class="text-secondary small mb-3">
-          Member list — the default theme's treatment of the member-facing directory. Filtered to active
-          members and capped, so no status column and no pager.
+          Member list — paginated cards, so the directory scales past one screen and each entry has room for
+          a profile image and further detail lines as the profile table grows.
         </p>
 
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -167,60 +169,114 @@
             </div>
             <p class="text-secondary small mb-0">People who have joined.</p>
           </div>
+          <span class="badge bg-body-tertiary border text-secondary">137 members</span>
         </div>
 
-        <div class="card">
-          <div class="card-header py-2 d-flex align-items-center gap-2">
-            <i class="bi bi-people text-secondary"></i>
-            <span class="small fw-semibold">All members</span>
-            <span class="badge bg-body-tertiary border text-secondary ms-1">137</span>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+          <!-- both image states are shown: a stored profile image, and the initials fallback -->
+          <div class="col">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <img
+                  class="rounded-circle border mb-3"
+                  width="96"
+                  height="96"
+                  alt=""
+                  src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%236c757d'/><circle cx='48' cy='37' r='16' fill='%23dee2e6'/><path d='M14 96c0-19 15-29 34-29s34 10 34 29z' fill='%23dee2e6'/></svg>">
+                <h3 class="h6 fw-semibold mb-1"><a href="#">Ada Lovelace</a></h3>
+                <p class="text-secondary small mb-3">Member since March 2024</p>
+                <a class="btn btn-sm btn-outline-secondary py-0 px-2" href="#">Profile</a>
+              </div>
+            </div>
           </div>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead>
-                <tr>
-                  <th scope="col">Member</th>
-                  <th scope="col">Member since</th>
-                  <th scope="col" class="text-end"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row" class="fw-semibold"><a href="#">Ada Lovelace</a></th>
-                  <td class="small text-secondary">March 2024</td>
-                  <td class="text-end">
-                    <a class="btn btn-sm btn-outline-secondary py-0 px-2" href="#">Profile</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" class="fw-semibold"><a href="#">Grace Hopper</a></th>
-                  <td class="small text-secondary">July 2024</td>
-                  <td class="text-end">
-                    <a class="btn btn-sm btn-outline-secondary py-0 px-2" href="#">Profile</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" class="fw-semibold text-secondary">Linus Torvalds</th>
-                  <td class="small text-secondary">January 2025</td>
-                  <td class="text-end"></td>
-                </tr>
-                <tr>
-                  <th scope="row" class="fw-semibold">
-                    <a href="#">Margaret Hamilton</a>
-                    <span class="badge bg-body-tertiary border text-secondary ms-1">You</span>
-                  </th>
-                  <td class="small text-secondary">February 2025</td>
-                  <td class="text-end">
-                    <a class="btn btn-sm btn-outline-secondary py-0 px-2" href="#">Profile</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+
+          <div class="col">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <span
+                  class="d-inline-flex align-items-center justify-content-center rounded-circle border bg-body-tertiary fw-semibold fs-3 mb-3"
+                  style="width: 96px; height: 96px;"
+                  aria-hidden="true">GH</span>
+                <h3 class="h6 fw-semibold mb-1"><a href="#">Grace Hopper</a></h3>
+                <p class="text-secondary small mb-3">Member since July 2024</p>
+                <a class="btn btn-sm btn-outline-secondary py-0 px-2" href="#">Profile</a>
+              </div>
+            </div>
           </div>
-          <div class="card-footer py-2 text-secondary small">
-            Showing the first 25 of 137 members.
+
+          <div class="col">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <span
+                  class="d-inline-flex align-items-center justify-content-center rounded-circle border bg-body-tertiary fw-semibold fs-3 mb-3"
+                  style="width: 96px; height: 96px;"
+                  aria-hidden="true">MH</span>
+                <h3 class="h6 fw-semibold mb-1">
+                  <a href="#">Margaret Hamilton</a>
+                  <span class="badge bg-body-tertiary border text-secondary ms-1">You</span>
+                </h3>
+                <p class="text-secondary small mb-3">Member since February 2025</p>
+                <a class="btn btn-sm btn-outline-secondary py-0 px-2" href="#">Profile</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <span
+                  class="d-inline-flex align-items-center justify-content-center rounded-circle border bg-body-tertiary fw-semibold fs-3 mb-3"
+                  style="width: 96px; height: 96px;"
+                  aria-hidden="true">LT</span>
+                <h3 class="h6 fw-semibold mb-1">Linus Torvalds</h3>
+                <p class="text-secondary small mb-3">Member since January 2025</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <img
+                  class="rounded-circle border mb-3"
+                  width="96"
+                  height="96"
+                  alt=""
+                  src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%236c757d'/><circle cx='48' cy='37' r='16' fill='%23dee2e6'/><path d='M14 96c0-19 15-29 34-29s34 10 34 29z' fill='%23dee2e6'/></svg>">
+                <h3 class="h6 fw-semibold mb-1"><a href="#">Katherine Johnson</a></h3>
+                <p class="text-secondary small mb-3">Member since May 2024</p>
+                <a class="btn btn-sm btn-outline-secondary py-0 px-2" href="#">Profile</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <span
+                  class="d-inline-flex align-items-center justify-content-center rounded-circle border bg-body-tertiary fw-semibold fs-3 mb-3"
+                  style="width: 96px; height: 96px;"
+                  aria-hidden="true">BL</span>
+                <h3 class="h6 fw-semibold mb-1"><a href="#">Barbara Liskov</a></h3>
+                <p class="text-secondary small mb-3">Member since December 2024</p>
+                <a class="btn btn-sm btn-outline-secondary py-0 px-2" href="#">Profile</a>
+              </div>
+            </div>
           </div>
         </div>
+
+        <nav aria-label="Member list pages" class="mt-4">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item disabled"><span class="page-link">…</span></li>
+            <li class="page-item"><a class="page-link" href="#">6</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+          <p class="text-secondary small text-center mb-0">Showing 1–25 of 137 members</p>
+        </nav>
 
         <div class="card mt-4">
           <div class="card-body text-center py-5">
